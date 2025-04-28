@@ -18,12 +18,16 @@ namespace TaskManager.Models
         public TaskItemPriority Priority { get; set; } // Enum for task priority (e.g., Low, Medium, High)
 
         [DataType(DataType.Date)]
-        [Display(Name = "Due Date")]
+        [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [DataType(DataType.Date)]
         [Display(Name = "Updated At")]
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Due Date")]
+        public DateTime? DueDate { get; set; } // Nullable to allow for no due date
         public string? UserId { get; set; } // User ID of the task owner
         public User? User { get; set; } // Navigation property to the User who owns the task
         public int? ProjectId { get; set; } // Project ID if the task is associated with a project

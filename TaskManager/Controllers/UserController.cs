@@ -50,7 +50,7 @@ namespace TaskManager.Controllers
             user.Name = updatedUser.Name;
             user.Email = updatedUser.Email;
             user.Role = updatedUser.Role;
-            user.UserName = updatedUser.Email; // Important: Username usually matches email
+            user.UserName = updatedUser.Email;
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -59,7 +59,6 @@ namespace TaskManager.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Show errors
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
@@ -90,7 +89,6 @@ namespace TaskManager.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Show errors if delete fails
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);

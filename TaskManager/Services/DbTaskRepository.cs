@@ -15,7 +15,10 @@ namespace TaskManager.Services
 
         public async Task<IEnumerable<TaskItem?>> GetAllTasksAsync()
         {
-            return await _taskRepo.Tasks.ToListAsync();
+            return await _taskRepo.Tasks
+                .Include(t => t.User)    // <-- eager load User
+                .Include(t => t.Project) // <-- optional: eager load Project
+                .ToListAsync();
         }
 
         public async Task<TaskItem?> GetTaskByIdAsync(int id)

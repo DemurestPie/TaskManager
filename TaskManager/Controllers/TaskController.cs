@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using TaskManager.Models;
 using TaskManager.Services;
@@ -23,60 +24,49 @@ namespace TaskManager.Controllers
             return View(await _taskRepo.GetAllTasksAsync());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TaskItem task)
-        {
-            task.UserId = _userManager.GetUserId(User);
-            task.CreatedAt = DateTime.Now;
-            task.UpdatedAt = DateTime.Now;
-
-            if (ModelState.IsValid)
-            {
-                await _taskRepo.AddTaskAsync(task);
-                return RedirectToAction("Index");
-            }
-
-            if(!ModelState.IsValid)
-            {
-                // Handle validation errors
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    // Log the error or display it to the user
-                    Console.WriteLine(error.ErrorMessage);
-                }
-            }
+            var task = await _taskRepo.GetTaskByIdAsync(id);
+            if (task == null) return NotFound();
             return View(task);
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            // Retrieve the task from the database using the id
-            TaskItem task = new TaskItem(); // Replace with actual retrieval logic
+            var task = await _taskRepo.GetTaskByIdAsync(id);
+            if (task == null) return NotFound();
             return View(task);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(TaskItem task)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, TaskItem updatedTask)
         {
-            if (ModelState.IsValid)
-            {
-                // Update the task in the database
-                // Redirect to the task list or details page
-                return RedirectToAction("Index");
-            }
+            if (id != updatedTask.Id) return BadRequest();
+
+            await _taskRepo.UpdateTaskAsync(updatedTask);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var task = await _taskRepo.GetTaskByIdAsync(id);
+            if (task == null) return NotFound();
             return View(task);
         }
 
-        public IActionResult Delete(int id)
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Retrieve the task from the database using the id
-            TaskItem task = new TaskItem(); // Replace with actual retrieval logic
-            return View(task);
+            var task = await _taskRepo.GetTaskByIdAsync(id);
+
+            if (task == null) return NotFound();
+
+            await _taskRepo.DeleteTaskAsync(id);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
