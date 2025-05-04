@@ -65,6 +65,52 @@
         </dd>
     </dl>
 </div>
+
+<h4 class="mt-5">Assigned Tasks</h4>
+
+@if (Model.Tasks != null && Model.Tasks.Any())
+{
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Assigned User</th>
+                <th>Due Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model.Tasks)
+            {
+                <tr>
+                    <td>@task.Title</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => task.Status)
+                    </td>
+                    <td>@task.Priority</td>
+                    <td>@task.User?.Name</td>
+                    <td>@task.DueDate?.ToShortDateString()</td>
+                    <td>
+                        <a asp-controller="Task"
+                           asp-action="Details"
+                           asp-route-id="@task.Id"
+                           class="btn btn-sm btn-outline-primary">
+                            View
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted">No tasks are currently assigned to this project.</p>
+}
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>

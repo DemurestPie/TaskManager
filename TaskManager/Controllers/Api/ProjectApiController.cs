@@ -120,5 +120,29 @@ namespace TaskManager.Controllers.Api
 
             return NoContent();
         }
+
+        // POST: api/projectapi/assign/{id}
+        // Assigns a task to a project
+        [HttpPost("assign/{id}")]
+        public async Task<IActionResult> Assign(int id, [FromQuery] int taskId)
+        {
+            var project = await _db.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _db.Tasks.FindAsync(taskId);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            project.Tasks.Add(task);
+            await _db.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }

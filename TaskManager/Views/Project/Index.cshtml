@@ -61,6 +61,7 @@
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
             <td>
+                <a asp-action="Assign" asp-route-id="@item.Id" class="btn btn-info open-assign-modal" data-project-id="@item.Id">Assign Task</a>
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
@@ -69,3 +70,10 @@
 }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="~/js/projectIndex.js" defer></script>
+}
+
+@await Html.PartialAsync("_AssignTaskModal")
+

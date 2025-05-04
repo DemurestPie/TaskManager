@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TaskManager.Models;
 using TaskManager.Services;
 
@@ -10,12 +11,14 @@ namespace TaskManager.Controllers
     public class ProjectController : Controller
     {
         private readonly IProjectRepository _projectRepo;
+        private readonly ITaskRepository _taskRepo;
         private readonly UserManager<User> _userManager;
 
-        public ProjectController(UserManager<User> userManager, IProjectRepository projectRepo)
+        public ProjectController(UserManager<User> userManager,  IProjectRepository projectRepo, ITaskRepository taskRepo)
         {
             _projectRepo = projectRepo;
             _userManager = userManager;
+            _taskRepo = taskRepo;
         }
         public async Task<IActionResult> Index()
         {
@@ -92,6 +95,22 @@ namespace TaskManager.Controllers
         {
             await _projectRepo.DeleteProjectAsync(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Assign(int id)
+        {
+            var tasks = await _taskRepo.GetAllTasksAsync(); // Filter as needed
+
+            var result = tasks.Select(t => new
+            {
+                t.Id,
+                t.Title,
+                Status = t.Status.ToString(), // Convert enum to string
+                UserName = t.User?.Name // Get user's name if available
+            });
+
+            return Json(result);
         }
     }
 }
