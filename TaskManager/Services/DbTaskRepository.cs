@@ -23,7 +23,10 @@ namespace TaskManager.Services
 
         public async Task<TaskItem?> GetTaskByIdAsync(int id)
         {
-            return await _taskRepo.Tasks.FindAsync(id);
+            return await _taskRepo.Tasks
+                .Include(t => t.User)
+                .Include(t => t.Project)
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task AddTaskAsync(TaskItem task)

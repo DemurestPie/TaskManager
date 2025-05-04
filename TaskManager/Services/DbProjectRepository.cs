@@ -24,7 +24,8 @@ namespace TaskManager.Services
         {
             return await _db.Projects
                 .Include(p => p.Tasks)
-                .ThenInclude(p => p.User)
+                .ThenInclude(t => t.User)
+                .Include(p => p.User)
                 .ToListAsync();
         }
 

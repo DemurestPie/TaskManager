@@ -68,13 +68,15 @@ namespace TaskManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Project updatedProject)
+        public async Task<IActionResult> Edit(Project project)
         {
-            if (id != updatedProject.Id) return BadRequest();
-
-            await _projectRepo.UpdateProjectAsync(updatedProject);
-
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                project.UpdatedAt = DateTime.Now;
+                await _projectRepo.UpdateProjectAsync(project);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(project);
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -82,6 +84,14 @@ namespace TaskManager.Controllers
             var project = await _projectRepo.GetProjectByIdAsync(id);
             if (project == null) return NotFound();
             return View(project);
+        }
+
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _projectRepo.DeleteProjectAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
