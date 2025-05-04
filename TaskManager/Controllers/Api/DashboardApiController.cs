@@ -33,7 +33,7 @@ namespace TaskManager.Controllers.Api
                 ProjectsDone = projectStats.Count(p => p.Status == TaskItemStatus.Done),
                 RecentTasks = taskStats
                     .OrderByDescending(t => t.CreatedAt)
-                    .Take(5)
+                    .Take(10)
                     .Select(t => new
                     {
                         t.Id,

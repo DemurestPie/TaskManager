@@ -7,6 +7,7 @@ using TaskManager.Services;
 
 namespace TaskManager.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
