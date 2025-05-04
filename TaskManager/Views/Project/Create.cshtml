@@ -25,13 +25,13 @@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <select asp-for="Status" class="form-control"
-                        asp-items="Html.GetEnumSelectList<TaskItemStatus>()"></select>
+                        asp-items="Html.GetEnumSelectList<TaskItemStatus>()"></select> <!--Gets enums for status-->
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label>
                 <select asp-for="Priority" class="form-control"
-                        asp-items="Html.GetEnumSelectList<TaskItemPriority>()"></select>
+                        asp-items="Html.GetEnumSelectList<TaskItemPriority>()"></select> <!--Gets enums for priority-->
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
             <div class="form-group">
