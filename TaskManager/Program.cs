@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Models;
 using TaskManager.Services;
@@ -30,6 +29,7 @@ namespace TaskManager
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Add Identity
             builder.Services.AddDefaultIdentity<User>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -63,8 +63,8 @@ namespace TaskManager
 
             app.UseRouting();
 
+            // Enable authentication and authorization
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             // Enable CORS
@@ -72,6 +72,7 @@ namespace TaskManager
 
             app.MapRazorPages();
 
+            // Enables API controllers
             app.MapControllers();
 
             app.MapControllerRoute(
