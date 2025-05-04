@@ -15,7 +15,6 @@
 
 <form asp-action="Index" method="get" class="row g-3 mb-4">
 
-    // Adds status filter
     <div class="col-md-3">
         <label for="statusFilter" class="form-label">Filter by Status</label>
         <select id="statusFilter" name="status" class="form-select">
@@ -29,7 +28,6 @@
         </select>
     </div>
 
-    // Adds priority filter
     <div class="col-md-3">
         <label for="priorityFilter" class="form-label">Filter by Priority</label>
         <select id="priorityFilter" name="priority" class="form-select">
@@ -43,7 +41,6 @@
         </select>
     </div>
 
-    // Adds exclude done checkbox
     <div class="col-md-3 align-self-end">
         <div class="form-check">
             <input type="checkbox" name="excludeDone" class="form-check-input" id="excludeDoneCheckbox"
@@ -102,7 +99,7 @@
                 @Html.DisplayFor(modelItem => item.Priority)
             </td>
             <td>
-                @item.User?.Name // Displays user's name instead of id
+                @item.User?.Name
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
