@@ -19,10 +19,31 @@ namespace TaskManager.Controllers
             _taskRepo = taskRepo;
             _userManager = userManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string status, string priority, string excludeDone)
         {
-            return View(await _taskRepo.GetAllTasksAsync());
+            var tasks = await _taskRepo.GetAllTasksAsync();
+
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse<TaskItemStatus>(status, out var parsedStatus))
+            {
+                tasks = tasks.Where(t => t.Status == parsedStatus);
+                ViewBag.SelectedStatus = status;
+            }
+
+            if (!string.IsNullOrEmpty(priority) && Enum.TryParse<TaskItemPriority>(priority, out var parsedPriority))
+            {
+                tasks = tasks.Where(t => t.Priority == parsedPriority);
+                ViewBag.SelectedPriority = priority;
+            }
+
+            if (excludeDone == "on")
+            {
+                tasks = tasks.Where(t => t.Status != TaskItemStatus.Done);
+                ViewBag.ExcludeDone = true;
+            }
+
+            return View(tasks);
         }
+
 
         public async Task<IActionResult> Create()
         {
