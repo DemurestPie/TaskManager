@@ -7,11 +7,11 @@ namespace TaskManager.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskController : Controller
+    public class TaskApiController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        public TaskController(ApplicationDbContext db)
+        public TaskApiController(ApplicationDbContext db)
         {
             _db = db;
         }

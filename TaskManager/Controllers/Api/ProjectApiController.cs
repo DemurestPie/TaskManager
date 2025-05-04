@@ -2,7 +2,7 @@
 
 namespace TaskManager.Controllers.Api
 {
-    public class ProjectController : Controller
+    public class ProjectApiController : Controller
     {
         public IActionResult Index()
         {
