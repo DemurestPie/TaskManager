@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Extensions;
 using TaskManager.Models;
 using TaskManager.Services;
-using TaskManager.Extensions;
 
 namespace TaskManager.Controllers.Api
 {

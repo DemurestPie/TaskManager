@@ -2,7 +2,7 @@
 
 namespace TaskManager.Services
 {
-    public  interface ITaskRepository
+    public interface ITaskRepository
     {
         Task<IEnumerable<TaskItem>> GetAllTasksAsync();
         Task<TaskItem> GetTaskByIdAsync(int id);

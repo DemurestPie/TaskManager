@@ -28,7 +28,8 @@ namespace TaskManager.Controllers.Api
         {
             var tasks = await _db.Tasks
                 .Include(t => t.User)
-                .Select(t => new {
+                .Select(t => new
+                {
                     t.Id,
                     t.Title,
                     t.Status,

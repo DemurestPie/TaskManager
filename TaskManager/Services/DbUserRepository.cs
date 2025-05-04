@@ -1,5 +1,5 @@
-﻿using TaskManager.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskManager.Models;
 
 namespace TaskManager.Services
 {

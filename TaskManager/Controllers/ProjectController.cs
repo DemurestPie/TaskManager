@@ -14,7 +14,7 @@ namespace TaskManager.Controllers
         private readonly ITaskRepository _taskRepo;
         private readonly UserManager<User> _userManager;
 
-        public ProjectController(UserManager<User> userManager,  IProjectRepository projectRepo, ITaskRepository taskRepo)
+        public ProjectController(UserManager<User> userManager, IProjectRepository projectRepo, ITaskRepository taskRepo)
         {
             _projectRepo = projectRepo;
             _userManager = userManager;

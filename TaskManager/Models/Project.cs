@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Data;
 
 namespace TaskManager.Models
 {
@@ -24,7 +23,7 @@ namespace TaskManager.Models
         [DataType(DataType.Date)]
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
         [DataType(DataType.Date)]
-        public DateTime? DueDate { get; set; } 
+        public DateTime? DueDate { get; set; }
 
     }
 }

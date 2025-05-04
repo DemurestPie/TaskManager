@@ -8,12 +8,12 @@ namespace TaskManager.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Title is required")]
-        public string Title { get; set; } = string.Empty; 
+        public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Status is required")]
         public TaskItemStatus Status { get; set; } // Enum for task status (e.g., ToDo, InProgress, Done)
-        
+
         [Required(ErrorMessage = "Priority is required")]
         public TaskItemPriority Priority { get; set; } // Enum for task priority (e.g., Low, Medium, High)
 
