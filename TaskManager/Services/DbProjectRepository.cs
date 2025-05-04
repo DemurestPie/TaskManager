@@ -16,6 +16,7 @@ namespace TaskManager.Services
         {
             return await _db.Projects
                 .Include(p => p.Tasks)
+                .ThenInclude(p => p.User)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -23,6 +24,7 @@ namespace TaskManager.Services
         {
             return await _db.Projects
                 .Include(p => p.Tasks)
+                .ThenInclude(p => p.User)
                 .ToListAsync();
         }
 

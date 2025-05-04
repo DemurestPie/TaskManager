@@ -40,6 +40,14 @@ namespace TaskManager
             builder.Services.AddScoped<IUserRepository, DbUserRepository>();
             builder.Services.AddScoped<IProjectRepository, DbProjectRepository>();
 
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -63,6 +71,8 @@ namespace TaskManager
             app.UseCors();
 
             app.MapRazorPages();
+
+            app.MapControllers();
 
             app.MapControllerRoute(
                 name: "default",

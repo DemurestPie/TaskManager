@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Models;
 using TaskManager.Services;
 
 namespace TaskManager.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         private readonly IProjectRepository _projectRepo;
@@ -18,6 +20,36 @@ namespace TaskManager.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _projectRepo.GetAllProjectsAsync());
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Project project)
+        {
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+                return View(project);
+            }
+
+            project.UserId = _userManager.GetUserId(User);
+
+            if (project.UserId == null)
+            {
+                ModelState.AddModelError("", "User ID is required.");
+                return View(project);
+            }
+            await _projectRepo.AddProjectAsync(project);
+
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Details(int id)

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Project List";
 }
 
-<h1>Index</h1>
+<h1>Project List</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
@@ -28,13 +28,7 @@
                 @Html.DisplayNameFor(model => model.Priority)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
+                User
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DueDate)
@@ -49,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -61,13 +55,7 @@
                 @Html.DisplayFor(modelItem => item.Priority)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
+                @item.User?.Name
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)

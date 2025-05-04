@@ -24,6 +24,36 @@ namespace TaskManager.Controllers
             return View(await _taskRepo.GetAllTasksAsync());
         }
 
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(TaskItem task)
+        {
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+                return View(task);
+            }
+
+            task.UserId = _userManager.GetUserId(User);
+
+            if (task.UserId == null)
+            {
+                ModelState.AddModelError("", "User ID is required.");
+                return View(task);
+            }
+            await _taskRepo.AddTaskAsync(task);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             var task = await _taskRepo.GetTaskByIdAsync(id);
