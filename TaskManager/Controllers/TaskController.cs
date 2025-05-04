@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using TaskManager.Extensions;
 using TaskManager.Models;
 using TaskManager.Services;
 
@@ -47,6 +48,11 @@ namespace TaskManager.Controllers
 
         public async Task<IActionResult> Create()
         {
+            // User must be either Admin or Manager to create a task
+            if (!User.IsAdmin(_userManager) && !User.IsManager(_userManager))
+            {
+                return Forbid();
+            }
             return View();
         }
 
@@ -102,6 +108,11 @@ namespace TaskManager.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            // User must be an admin to delete tasks
+            if (!User.IsAdmin(_userManager))
+            {
+                return Forbid();
+            }
             var task = await _taskRepo.GetTaskByIdAsync(id);
             if (task == null) return NotFound();
             return View(task);

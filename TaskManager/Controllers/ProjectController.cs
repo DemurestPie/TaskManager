@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TaskManager.Extensions;
 using TaskManager.Models;
 using TaskManager.Services;
 
@@ -48,6 +49,11 @@ namespace TaskManager.Controllers
 
         public async Task<IActionResult> Create()
         {
+            // User must be either Admin or Manager to create a project
+            if (!User.IsAdmin(_userManager) && !User.IsManager(_userManager))
+            {
+                return Forbid();
+            }
             return View();
         }
 
@@ -85,6 +91,11 @@ namespace TaskManager.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            // User must be either Admin or Manager to edit a project
+            if (!User.IsAdmin(_userManager) || !User.IsManager(_userManager))
+            {
+                return Forbid();
+            }
             var project = await _projectRepo.GetProjectByIdAsync(id);
             if (project == null) return NotFound();
             return View(project);
@@ -105,6 +116,11 @@ namespace TaskManager.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            // User must be an admin to delete projects
+            if (!User.IsAdmin(_userManager))
+            {
+                return Forbid();
+            }
             var project = await _projectRepo.GetProjectByIdAsync(id);
             if (project == null) return NotFound();
             return View(project);
@@ -121,6 +137,11 @@ namespace TaskManager.Controllers
         [HttpGet]
         public async Task<IActionResult> Assign(int id)
         {
+            // User must be either Admin or Manager to assign a project
+            if (!User.IsInRole("Admin") || !User.IsInRole("Manager"))
+            {
+                return Forbid();
+            }
             var tasks = await _taskRepo.GetAllTasksAsync(); // Filter as needed
 
             var result = tasks.Select(t => new

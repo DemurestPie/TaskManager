@@ -70,6 +70,11 @@ namespace TaskManager.Controllers
         [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
+            // User must be an admin to delete users
+            if (!User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
             var user = await _userManager.FindByIdAsync(id);
             if (user == null) return NotFound();
             return View(user);
