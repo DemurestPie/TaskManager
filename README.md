@@ -2,6 +2,8 @@
 
 CSCI 3110 project managing tasks, users, and projects built using ASP.NET MVC. This app uses Entity Framework Core with Identity for authentication and includes full CRUD functionality for tasks, users, and projects.
 
+<b><u>After creating account, go into the user view, click edit on your account, and make yourself admin to access all crud operations.</u></b>
+
 ## Features
 
 - User authentication and role management using role based user logic (Admin, Manager, User)
@@ -13,7 +15,7 @@ CSCI 3110 project managing tasks, users, and projects built using ASP.NET MVC. T
 - Only Managers can create tasks and projects
 - Only Admins can delete tasks and projects
 
-<b>The user view currently has no access control for testing purposes. You can make yourself Admin by editing your user in the User view and selecting Admin from the dropdown.
+The user view currently has no access control for testing purposes.
 
 ## Main Pages
 
