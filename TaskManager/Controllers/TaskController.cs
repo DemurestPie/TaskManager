@@ -24,18 +24,21 @@ namespace TaskManager.Controllers
         {
             var tasks = await _taskRepo.GetAllTasksAsync();
 
+            // Adds status filter
             if (!string.IsNullOrEmpty(status) && Enum.TryParse<TaskItemStatus>(status, out var parsedStatus))
             {
                 tasks = tasks.Where(t => t.Status == parsedStatus);
                 ViewBag.SelectedStatus = status;
             }
 
+            // Adds priority filter
             if (!string.IsNullOrEmpty(priority) && Enum.TryParse<TaskItemPriority>(priority, out var parsedPriority))
             {
                 tasks = tasks.Where(t => t.Priority == parsedPriority);
                 ViewBag.SelectedPriority = priority;
             }
 
+            // Adds exclude done filter
             if (excludeDone == "on")
             {
                 tasks = tasks.Where(t => t.Status != TaskItemStatus.Done);
@@ -62,6 +65,7 @@ namespace TaskManager.Controllers
         {
             if (!ModelState.IsValid)
             {
+                // Log the errors to the console for debugging
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
                     Console.WriteLine(error.ErrorMessage);
@@ -99,6 +103,7 @@ namespace TaskManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, TaskItem updatedTask)
         {
+            // Check if task id was changed
             if (id != updatedTask.Id) return BadRequest();
 
             await _taskRepo.UpdateTaskAsync(updatedTask);

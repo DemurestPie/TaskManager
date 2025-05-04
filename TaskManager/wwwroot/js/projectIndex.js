@@ -3,8 +3,10 @@
 const assignTaskModalDOM = document.getElementById('assignTaskModal');
 const assignTaskModal = new bootstrap.Modal(assignTaskModalDOM);
 
+// For debugging purposes
 console.log('Project Index JS loaded');
 
+// Fetches data from the restful api
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('a.open-assign-modal').forEach(button => {
         button.addEventListener('click', function (event) {
@@ -12,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const projectId = this.getAttribute('asp-route-id') || this.dataset.projectId;
 
-            // ✅ Use REST API to get all tasks (adjust here if you want to filter unassigned only)
             fetch('/api/taskapi')
                 .then(response => response.json())
                 .then(data => {
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// Populates the task table in the modal
 function populateTasks(tasks, projectId) {
     const tbody = document.getElementById('taskTableBody');
     tbody.innerHTML = '';
@@ -65,6 +67,7 @@ function populateTasks(tasks, projectId) {
     });
 }
 
+// Assigns the task to the project
 async function assignTaskToProject(taskId, projectId) {
     try {
         const response = await fetch(`/api/projectapi/assign/${projectId}?taskId=${taskId}`, {

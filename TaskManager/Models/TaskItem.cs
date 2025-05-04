@@ -19,11 +19,11 @@ namespace TaskManager.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "Created At")]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now; // Default to current date
 
         [DataType(DataType.Date)]
         [Display(Name = "Updated At")]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now; // Default to current date
 
         [DataType(DataType.Date)]
         [Display(Name = "Due Date")]

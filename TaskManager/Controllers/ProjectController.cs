@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TaskManager.Extensions;
 using TaskManager.Models;
 using TaskManager.Services;
@@ -25,18 +24,21 @@ namespace TaskManager.Controllers
         {
             var projects = await _projectRepo.GetAllProjectsAsync();
 
+            // Adds status filter
             if (!string.IsNullOrEmpty(status) && Enum.TryParse<TaskItemStatus>(status, out var parsedStatus))
             {
                 projects = projects.Where(p => p.Status == parsedStatus);
                 ViewBag.SelectedStatus = status;
             }
 
+            // Adds priority filter
             if (!string.IsNullOrEmpty(priority) && Enum.TryParse<TaskItemPriority>(priority, out var parsedPriority))
             {
                 projects = projects.Where(p => p.Priority == parsedPriority);
                 ViewBag.SelectedPriority = priority;
             }
 
+            // Adds exclude done filter
             if (excludeDone == "on")
             {
                 projects = projects.Where(p => p.Status != TaskItemStatus.Done);
@@ -63,6 +65,7 @@ namespace TaskManager.Controllers
         {
             if (!ModelState.IsValid)
             {
+                // Log errors for debugging
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
                     Console.WriteLine(error.ErrorMessage);
@@ -142,8 +145,7 @@ namespace TaskManager.Controllers
             {
                 return Forbid();
             }
-            var tasks = await _taskRepo.GetAllTasksAsync(); // Filter as needed
-
+            var tasks = await _taskRepo.GetAllTasksAsync();
             var result = tasks.Select(t => new
             {
                 t.Id,

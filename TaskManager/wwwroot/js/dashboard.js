@@ -1,15 +1,17 @@
 ﻿'use strict';
 
+// Fetches data from the restful api
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/api/dashboardapi')
         .then(res => res.json())
         .then(data => {
             renderCards(data);
-            renderRecentTasks(data.recentTasks?.$values || []); // ✅ fixed casing
+            renderRecentTasks(data.recentTasks?.$values || []);
         })
         .catch(err => console.error('Dashboard load error:', err));
 });
 
+// Draws the cards on the dashboard
 function renderCards(data) {
     const container = document.getElementById('dashboardStats');
     container.innerHTML = `
@@ -20,6 +22,7 @@ function renderCards(data) {
     `;
 }
 
+// Creates the cards
 function createCard(label, value, colorClass) {
     return `
         <div class="col-md-3">
@@ -33,6 +36,7 @@ function createCard(label, value, colorClass) {
     `;
 }
 
+// Draws the recent tasks table
 function renderRecentTasks(tasks) {
     const tbody = document.getElementById('recentTasksBody');
     tbody.innerHTML = '';
